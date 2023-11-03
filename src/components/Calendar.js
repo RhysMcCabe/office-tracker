@@ -17,7 +17,7 @@ function Calendar({ setDateValue }) {
           onChange={(e) => {
             setDateValue(formatDateForDisplay(e.target.value));
           }}
-          className="text-black py-1 px-2 w-36 rounded-full"
+          className="text-black py-1 px-2 w-36 text-center rounded-full"
           type="date"
           name=""
           id=""

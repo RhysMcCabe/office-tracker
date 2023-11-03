@@ -9,7 +9,7 @@ function SendButton({ typeValue, dateValue }) {
         onClick={() => {
           setIsConfirmLogOpen(true);
         }}
-        className="border rounded-full w-36 py-1 px-2"
+        className="border rounded-full w-36 py-1 px-2 hover:bg-blue-600"
       >
         Submit
       </button>

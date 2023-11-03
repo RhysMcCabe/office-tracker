@@ -6,19 +6,33 @@ import Logout from "./pages/Logout";
 import Heading from "./components/Heading";
 import { getDatabase, ref, child, get } from "firebase/database";
 import "firebase/database";
+import BadgeSVG from "./images/BadgeSVG";
+import MyLogs from "./components/MyLogs";
+import Donate from "./components/Donate";
+import MyStats from "./components/MyStats";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [erroruserData, setErrorUserData] = useState(null);
+  const [showPrevLogs, setShowPrevLogs] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
     if (user?.uid) {
       const dbRef = ref(getDatabase());
-      get(child(dbRef, user?.uid))
+      get(child(dbRef, "user/" + user?.uid))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            setUserData(snapshot.val());
+            const data = snapshot.val();
+            const formattedData = Object.entries(data).map(([date, value]) => {
+              const formattedDate = `${date.slice(0, 2)}/${date.slice(
+                2,
+                4
+              )}/${date.slice(4)}`;
+              return `${formattedDate} - ${value}`;
+            });
+            setUserData(formattedData);
           } else {
             setErrorUserData("No data available");
           }
@@ -37,16 +51,21 @@ function App() {
       }
     }
   }, [user]);
+
   return (
-    <div className="bg-zinc-800 h-screen text-center pt-12 text-zinc-200 shadow-lg">
+    <div className="bg-zinc-800 h-screen text-center pt-12 text-zinc-200">
       {user?.email ? (
         <div className="mb-6">
+          <div className="flex gap-1 justify-center">
+            <div className="text-lg">{user.displayName}</div>
+            <BadgeSVG className={"w-5 h-5 my-auto"} />
+          </div>
           <Logout setUser={setUser} setUserData={setUserData} />
         </div>
       ) : (
         <></>
       )}
-      <div className=" w-fit mx-auto bg-zinc-900 rounded-2xl p-6">
+      <div className=" w-fit mx-auto bg-zinc-900 shadow-lg rounded-2xl p-6">
         <Heading />
         {user === null ? (
           <div className="flex justify-center">
@@ -67,30 +86,55 @@ function App() {
         ) : (
           <></>
         )}
-        {userData ? (
-          <div className="text-sm pt-6 ">
-            {Object.keys(userData).map((key) => (
-              <div key={key}>
-                {key}:{" "}
-                {Object.keys(userData[key]).map((key2) => (
-                  <span key={key2}>{userData[key][key2].toString()}</span>
-                ))}
-              </div>
-            ))}
+
+        <div className="mt-20  w-fit mx-auto rounded-2xl bg-zinc-900">
+          <Donate />
+        </div>
+      </div>
+      <div className="flex gap-4 justify-center">
+        {userData.length !== 0 && user ? (
+          <div
+            className={`mt-12 cursor-pointer px-2 rounded-full ${
+              showPrevLogs ? " bg-zinc-600" : ""
+            }`}
+            onClick={() => {
+              setShowPrevLogs(true);
+              setShowStats(false);
+            }}
+          >
+            Logs
           </div>
         ) : (
           <></>
-        )}{" "}
-        <div className="mt-20  w-fit mx-auto rounded-2xl bg-zinc-900">
-          <stripe-buy-button
-            buy-button-id="buy_btn_1O8CR9R1MgaUczlogYpaFDX8"
-            publishable-key="pk_test_51MoDkyR1MgaUczloCxubf6C6EJvd844xu2J7mibPXVo4kVUxRLo7RWAFJVmugVRmaVN0yYqmoUiKwFowi61Lnz9D00faQZUP2D"
-          ></stripe-buy-button>
-          <div className="text-zinc-300 text-sm font-semibold">
-            toward server costs
+        )}
+
+        {userData.length !== 0 && user ? (
+          <div
+            className={`mt-12 cursor-pointer px-2 rounded-full ${
+              showStats ? " bg-zinc-600 " : ""
+            }`}
+            onClick={() => {
+              setShowStats(true);
+              setShowPrevLogs(false);
+            }}
+          >
+            My Stats
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
+
+      {userData.length !== 0 && showPrevLogs ? (
+        <MyLogs userData={{ userData }} />
+      ) : (
+        <></>
+      )}
+      {userData.length !== 0 && showStats ? (
+        <MyStats userData={{ userData }} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
