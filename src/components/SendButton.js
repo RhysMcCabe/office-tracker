@@ -1,28 +1,27 @@
 import React, { useState } from "react";
-import ConfirmModal from "./ConfirmModal";
+import { getDatabase, ref, update } from "firebase/database";
 
-function SendButton({ typeValue, dateValue }) {
-  const [openConfirmLog, setIsConfirmLogOpen] = useState(false);
+function SendButton({ user, typeValue, dateValue }) {
+  function writeNewPost(uid, date, type) {
+    const db = getDatabase();
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates["/user/" + uid + "/" + date.replace(/\//g, "")] = type;
+
+    return update(ref(db), updates);
+  }
+
   return (
     <>
       <button
         onClick={() => {
-          setIsConfirmLogOpen(true);
+          writeNewPost(user.uid, dateValue, typeValue);
         }}
-        className="border rounded-full w-36 py-1 px-2 hover:bg-blue-600"
+        className="border text-zinc-200 rounded-full mt-4 w-36 py-1 px-2 bg-blue-900"
       >
         Submit
       </button>
-
-      <ConfirmModal
-        formId={"submit-office-log"}
-        header={`Submit log for ${dateValue}`}
-        body={`${typeValue}`}
-        dismissText={"Go back"}
-        open={openConfirmLog}
-        setOpen={setIsConfirmLogOpen}
-        submitText={"Submit log"}
-      />
     </>
   );
 }

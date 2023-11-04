@@ -7,7 +7,7 @@ function TypeSelect({ setTypeValue }) {
         onChange={(e) => {
           setTypeValue(e.target.value);
         }}
-        className="text-black text-center rounded-full px-2 py-1 w-36"
+        className="text-zinc-200 bg-zinc-800 font-semibold text-center rounded-full px-2 py-1 w-36"
         name=""
         id=""
       >
