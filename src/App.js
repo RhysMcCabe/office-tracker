@@ -8,7 +8,6 @@ import { getDatabase, ref, child, get, onValue } from "firebase/database";
 import "firebase/database";
 import BadgeSVG from "./images/BadgeSVG";
 import MyLogs from "./components/MyLogs";
-import Donate from "./components/Donate";
 import MyStats from "./components/MyStats";
 import StatsSVG from "./images/StatsSVG";
 import LogsSVG from "./images/LogsSVG";
@@ -84,10 +83,6 @@ function App() {
         ) : (
           <></>
         )}
-
-        <div className="mt-20  w-fit mx-auto rounded-2xl bg-zinc-900">
-          <Donate />
-        </div>
       </div>
       <div className="flex gap-4 justify-center">
         {userData?.length !== 0 && user ? (
