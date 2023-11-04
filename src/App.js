@@ -90,7 +90,7 @@ function App() {
         </div>
       </div>
       <div className="flex gap-4 justify-center">
-        {userData.length !== 0 && user ? (
+        {userData?.length !== 0 && user ? (
           <div
             className={`mt-12 cursor-pointer px-2 rounded-xl  w-36 ${
               showPrevLogs ? " bg-zinc-900" : ""
@@ -106,7 +106,7 @@ function App() {
           <></>
         )}
 
-        {userData.length !== 0 && user ? (
+        {userData?.length !== 0 && user ? (
           <div
             className={`mt-12 cursor-pointer px-2 rounded-xl w-36 ${
               showStats ? " bg-zinc-900 " : ""
@@ -123,12 +123,12 @@ function App() {
         )}
       </div>
 
-      {userData.length !== 0 && showPrevLogs ? (
+      {userData?.length !== 0 && showPrevLogs ? (
         <MyLogs userData={{ userData }} />
       ) : (
         <></>
       )}
-      {userData.length !== 0 && showStats ? (
+      {userData?.length !== 0 && showStats ? (
         <MyStats userData={{ userData }} />
       ) : (
         <></>
