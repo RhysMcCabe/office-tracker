@@ -4,6 +4,7 @@ function MyStats({ userData }) {
   const [inOfficePercentage, setInOfficePercentage] = useState(null);
   const [wfhPercentage, setWfhPercentage] = useState(null);
   const [PtoPercentage, setPtoPercentage] = useState(null);
+  const [holPercentage, setHolPercentage] = useState(null);
   useEffect(() => {
     const totalAmount = userData.userData.length;
     const totalPTOAmount = userData.userData.reduce((count, item) => {
@@ -18,6 +19,12 @@ function MyStats({ userData }) {
       }
       return count;
     }, 0);
+    const holTotal = userData.userData.reduce((count, item) => {
+      if (item.includes(" - HOL")) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
     const wfhTotal = userData.userData.reduce((count, item) => {
       if (item.includes(" - WFH")) {
         return count + 1;
@@ -27,14 +34,22 @@ function MyStats({ userData }) {
     if (totalPTOAmount > 0) {
       setPtoPercentage(((totalPTOAmount / totalAmount) * 100).toFixed(2));
     }
+    if (holTotal > 0) {
+      setHolPercentage(((holTotal / totalAmount) * 100).toFixed(2));
+    }
     if (officeTotal > 0) {
       setInOfficePercentage(
-        ((officeTotal / (totalAmount - totalPTOAmount)) * 100).toFixed(2)
+        (
+          (officeTotal / (totalAmount - totalPTOAmount - holTotal)) *
+          100
+        ).toFixed(2)
       );
     }
     if (wfhTotal > 0) {
       setWfhPercentage(
-        ((wfhTotal / (totalAmount - totalPTOAmount)) * 100).toFixed(2)
+        ((wfhTotal / (totalAmount - totalPTOAmount - holTotal)) * 100).toFixed(
+          2
+        )
       );
     }
   }, [userData]);
@@ -58,6 +73,12 @@ function MyStats({ userData }) {
         <div className="text-right w-20">PTO:</div>
         <div className="w-20">
           {PtoPercentage ? <>{PtoPercentage}%</> : "None"}
+        </div>
+      </div>
+      <div className="flex justify-center gap-5 w-64 mx-auto">
+        <div className="text-right w-20">Hol:</div>
+        <div className="w-20">
+          {holPercentage ? <>{holPercentage}%</> : "None"}
         </div>
       </div>
     </div>

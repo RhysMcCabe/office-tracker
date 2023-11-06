@@ -17,6 +17,7 @@ function TypeSelect({ setTypeValue }) {
         <option value="Office">Office</option>
         <option value="WFH">WFH</option>
         <option value="PTO">PTO</option>
+        <option value="HOL">Holiday</option>
       </select>
     </>
   );

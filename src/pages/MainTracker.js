@@ -1,12 +1,16 @@
 import "../App.css";
-import { useState } from "react";
 import SendButton from "../components/SendButton";
 import TypeSelect from "../components/TypeSelect";
 import CalendarTwo from "../components/CalenderTwo";
 
-function MainTracker({ user }) {
-  const [typeValue, setTypeValue] = useState(null);
-  const [dateValue, setDateValue] = useState(null);
+function MainTracker({
+  dateValue,
+  setDateValue,
+  typeValue,
+  setTypeValue,
+  user,
+  setUserData,
+}) {
   return (
     <div>
       <CalendarTwo setDateValue={setDateValue} dateValue={dateValue} />
