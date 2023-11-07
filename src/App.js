@@ -11,6 +11,7 @@ import MyLogs from "./components/MyLogs";
 import MyStats from "./components/MyStats";
 import StatsSVG from "./images/StatsSVG";
 import LogsSVG from "./images/LogsSVG";
+import Footer from "./components/Footer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -142,6 +143,7 @@ Whitelist
       ) : (
         <></>
       )}
+      {user?.uid && userData?.length !== 0 ? <Footer /> : <></>}
     </div>
   );
 }
