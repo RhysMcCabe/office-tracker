@@ -44,7 +44,7 @@ function App() {
   }, [user, setUserData]);
 
   /* 
-
+Whitelist
   useEffect(() => {
     if (user !== null) {
       const allowedEmails = process.env.REACT_APP_ALLOWED_EMAILS.split(",");
