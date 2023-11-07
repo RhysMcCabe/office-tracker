@@ -17,3 +17,10 @@ All stats and derived values are calculated on client. They are not persisted.
 Current Quarter is 2023Q4 (November 2023 - January 2024).
 
 Database wipe at the end of each quarter.
+
+Very early stages.
+
+Todo:
+- Input validation
+- Testing
+- More robust error handling
