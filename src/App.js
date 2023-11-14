@@ -143,7 +143,9 @@ Whitelist
       ) : (
         <></>
       )}
-      {user?.uid && userData?.length !== 0 ? <Footer /> : <></>}
+      <div className="bg-zinc-800 py-12">
+        {user?.uid && userData?.length !== 0 ? <Footer /> : <></>}
+      </div>
     </div>
   );
 }
